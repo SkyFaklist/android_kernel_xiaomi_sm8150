@@ -30,7 +30,8 @@ env:
   TZ: Asia/Shanghai
   ARCH: arm64
   SUBARCH: arm64
-  CROSS_COMPILE: /workdir/toolchain/google_gcc/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+  DEVICE: cepheus_defconfig
+  CROSS_COMPILE: /workdir/toolchain/ubertc_gcc/aarch64-linux-android-8.0/bin/aarch64-linux-android-
 
 jobs:
   build:
@@ -65,7 +66,14 @@ jobs:
     - name: Set Device Code
       working-directory: /workdir/kernel
       run: |
-        make O=out cepheus_defconfig
+        make O=out $DEVICE
+
+    - name: Pre-Compile Source
+      working-directory: /workdir/kernel
+      run: |
+        make -j$(nproc) O=out 2>&1 | tee kernel.log
+        rm -rf out
+        make O=out $DEVICE
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -73,6 +81,13 @@ jobs:
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: Compile Source
+      working-directory: /workdir/kernel
+      run: |
+        make -j$(nproc) O=out 2>&1 | tee kernel.log
+        ls /workdir/kernel/
+        ls /workdir/kernel/*.*
        
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main

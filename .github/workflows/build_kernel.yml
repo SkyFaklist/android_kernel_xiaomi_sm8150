@@ -28,6 +28,9 @@ env:
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
+  ARCH: arm64
+  SUBARCH: arm64
+  CROSS_COMPILE: /home/runner/work/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 
 jobs:
   build:

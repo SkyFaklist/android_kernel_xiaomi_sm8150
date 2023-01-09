@@ -30,7 +30,7 @@ env:
   TZ: Asia/Shanghai
   ARCH: arm64
   SUBARCH: arm64
-  CROSS_COMPILE: /home/runner/work/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+  CROSS_COMPILE: /workdir/toolchain/google_gcc/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 
 jobs:
   build:

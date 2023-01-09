@@ -19,7 +19,7 @@ on:
         default: 'true'
 
 env:
-  REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150
+  REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150.git
   REPO_BRANCH: miui
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true
@@ -50,12 +50,26 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+
     - name: Clone source code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH kernel
+        git clone https://bitbucket.org/jonascardoso/toolchain_aarch64_travis.git toolchain
         ln -sf /workdir/kernel $GITHUB_WORKSPACE/kernel
+        
+    - name: Set Env DynomicValue
+      working-directory: /workdir
+      run: |
+        export ARCH=arm64
+        export SUBARCH=arm64
+        export CROSS_COMPILE=/workdir/toolchain/google_gcc/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+
+    - name: Set Device Code
+      working-directory: /workdir/kernel
+      run: |
+        make O=out cepheus_defconfig
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0

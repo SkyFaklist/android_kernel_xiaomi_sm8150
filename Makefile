@@ -2,7 +2,7 @@
 VERSION = 4
 PATCHLEVEL = 14
 SUBLEVEL = 275
-EXTRAVERSION =
+EXTRAVERSION =-SKLoader-
 NAME = Petit Gorille
 
 # *DOCUMENTATION*
@@ -310,39 +310,39 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
 # "make" in the configured kernel build directory always uses that.
 # Default value for CROSS_COMPILE is not to prefix executables
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
-ARCH		?= $(SUBARCH)
-CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
+ARCH		?= arm64
+CROSS_COMPILE	?= /workdir/toolchain/google_gcc/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 
 # Architecture as present in compile.h
-UTS_MACHINE 	:= $(ARCH)
-SRCARCH 	:= $(ARCH)
+UTS_MACHINE 	:= arm64
+SRCARCH 	:= arm64
 
 # Additional ARCH settings for x86
-ifeq ($(ARCH),i386)
+ifeq (arm64,i386)
         SRCARCH := x86
 endif
-ifeq ($(ARCH),x86_64)
+ifeq (arm64,x86_64)
         SRCARCH := x86
 endif
 
 # Additional ARCH settings for sparc
-ifeq ($(ARCH),sparc32)
+ifeq (arm64,sparc32)
        SRCARCH := sparc
 endif
-ifeq ($(ARCH),sparc64)
+ifeq (arm64,sparc64)
        SRCARCH := sparc
 endif
 
 # Additional ARCH settings for sh
-ifeq ($(ARCH),sh64)
+ifeq (arm64,sh64)
        SRCARCH := sh
 endif
 
 # Additional ARCH settings for tile
-ifeq ($(ARCH),tilepro)
+ifeq (arm64,tilepro)
        SRCARCH := tile
 endif
-ifeq ($(ARCH),tilegx)
+ifeq (arm64,tilegx)
        SRCARCH := tile
 endif
 
@@ -1028,7 +1028,7 @@ endif
 # Default kernel image to build when no specific target is given.
 # KBUILD_IMAGE may be overruled on the command line or
 # set in the environment
-# Also any assignments in arch/$(ARCH)/Makefile take precedence over
+# Also any assignments in arch/arm64/Makefile take precedence over
 # this default value
 export KBUILD_IMAGE ?= vmlinux
 
@@ -1835,13 +1835,13 @@ endif #ifeq ($(mixed-targets),1)
 PHONY += checkstack kernelrelease kernelversion image_name
 
 # UML needs a little special treatment here.  It wants to use the host
-# toolchain, so needs $(SUBARCH) passed to checkstack.pl.  Everyone
-# else wants $(ARCH), including people doing cross-builds, which means
-# that $(SUBARCH) doesn't work here.
-ifeq ($(ARCH), um)
-CHECKSTACK_ARCH := $(SUBARCH)
+# toolchain, so needs arm64 passed to checkstack.pl.  Everyone
+# else wants arm64, including people doing cross-builds, which means
+# that arm64 doesn't work here.
+ifeq (arm64, um)
+CHECKSTACK_ARCH := arm64
 else
-CHECKSTACK_ARCH := $(ARCH)
+CHECKSTACK_ARCH := arm64
 endif
 checkstack:
 	$(OBJDUMP) -d vmlinux $$(find . -name '*.ko') | \

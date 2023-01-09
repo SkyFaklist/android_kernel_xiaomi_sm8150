@@ -61,13 +61,6 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH kernel
         git clone https://bitbucket.org/jonascardoso/toolchain_aarch64_travis.git toolchain
         ln -sf /workdir/kernel $GITHUB_WORKSPACE/kernel
-        
-    - name: Set Env DynomicValue
-      working-directory: /workdir
-      run: |
-        export ARCH=arm64
-        export SUBARCH=arm64
-        export CROSS_COMPILE=/workdir/toolchain/google_gcc/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 
     - name: Set Device Code
       working-directory: /workdir/kernel

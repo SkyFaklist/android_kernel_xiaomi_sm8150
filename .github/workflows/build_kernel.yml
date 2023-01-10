@@ -33,7 +33,6 @@ env:
   ARCH: arm64
   SUBARCH: arm64
   DEVICE: cepheus_defconfig
-  CROSS_COMPILE: /workdir/toolchain/bin/aarch64-linux-android-
   CC: /workdir/toolchain/clang-r468909/bin/clang
   CLANG_TRIPLE: aarch64-linux-gnu-
   

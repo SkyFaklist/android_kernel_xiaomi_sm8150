@@ -21,7 +21,7 @@ on:
 env:
   REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150.git
   REPO_BRANCH: miui
-  COMPER_URL: https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+  COMPER_URL: https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86
   COMPER_BRANCH: master
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true
@@ -34,6 +34,9 @@ env:
   SUBARCH: arm64
   DEVICE: cepheus_defconfig
   CROSS_COMPILE: /workdir/toolchain/bin/aarch64-linux-android-
+  CC: /workdir/toolchain/clang-r468909/bin/clang
+  CLANG_TRIPLE: aarch64-linux-gnu-
+  
 
 jobs:
   build:

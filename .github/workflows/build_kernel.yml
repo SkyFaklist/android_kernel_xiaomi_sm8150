@@ -66,6 +66,7 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH kernel
         git clone --depth=1 $TC_URL tc-build
+        git clone https://github.com/Kitware/CMake
         ln -sf /workdir/kernel $GITHUB_WORKSPACE/kernel
 
     - name: Set Device Code
@@ -73,6 +74,11 @@ jobs:
       run: |
         make O=out $DEVICE
         ccache -M 10G
+
+    - name: Pre-Compile CMake
+      working-directory: /workdir/CMake
+      run: |
+        ./bootstrap && make && sudo make install
 
     - name: Pre-Compile Toolchain
       working-directory: /workdir/tc-build

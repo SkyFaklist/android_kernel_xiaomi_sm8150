@@ -21,8 +21,9 @@ on:
 env:
   REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150.git
   REPO_BRANCH: miui
-  COMPER_URL: https://github.com/kdrag0n/proton-clang.git
+  COMPER_URL: https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/clang+llvm-15.0.6-x86_64-linux-gnu-ubuntu-18.04.tar.xz
   COMPER_BRANCH: master
+  TC_URL: https://github.com/ClangBuiltLinux/tc-build.git
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: false

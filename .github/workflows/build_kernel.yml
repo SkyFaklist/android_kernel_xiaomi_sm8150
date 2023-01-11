@@ -77,8 +77,8 @@ jobs:
     - name: Pre-Compile Toolchain
       working-directory: /workdir/tc-build
       run: |
-        python ./build-llvm.py
-        python ./build-binutils.py -t aarch64-linux-gnu
+        python3 ./build-llvm.py
+        python3 ./build-binutils.py -t aarch64-linux-gnu
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0

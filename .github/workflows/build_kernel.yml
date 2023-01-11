@@ -34,15 +34,13 @@ env:
   ARCH: arm64
   SUBARCH: arm64
   DEVICE: cepheus_defconfig
-  CC: clang
-  CLANG_TRIPLE: aarch64-linux-gnu-
-  CLANG_PATH: /workdir/toolchain/bin/
-  CROSS_COMLILE: /workdir/toolchain/bin/aarch64-linux-gnu-
+  USE_CCACHE: 1
+  CCACHE_DIR: ~/.ccache
   
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     steps:
     - name: Checkout
@@ -55,7 +53,7 @@ jobs:
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         #sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
-        sudo -E apt-get install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk language-pack-zh-hans python vim
+        sudo -E apt-get install -y bc bison build-essential binutils-dev ca-certificates ccache clang cmake curl flex file g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lld lzop ninja-build pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk language-pack-zh-hans texinfo python python3-dev vim u-boot-tools xz-utils zlib1g-dev
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -67,20 +65,20 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH kernel
-        git clone --depth=1 $COMPER_URL -b $COMPER_BRANCH toolchain
+        git clone --depth=1 $TC_URL tc-build
         ln -sf /workdir/kernel $GITHUB_WORKSPACE/kernel
 
     - name: Set Device Code
       working-directory: /workdir/kernel
       run: |
         make O=out $DEVICE
+        ccache -M 10G
 
-    - name: Pre-Compile Source
-      working-directory: /workdir/kernel
+    - name: Pre-Compile Toolchain
+      working-directory: /workdir/tc-build
       run: |
-        make -j$(nproc) O=out 2>&1 | tee kernel.log
-        rm -rf out
-        make O=out $DEVICE
+        python ./build-llvm.py
+        python ./build-binutils.py -t aarch64-linux-gnu
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -92,7 +90,8 @@ jobs:
     - name: Compile Source
       working-directory: /workdir/kernel
       run: |
-        make -j$(nproc) O=out 2>&1 | tee kernel.log
+        chmod +x ./compile.sh
+        ./compile.sh
         ls /workdir/kernel/
         ls /workdir/kernel/*.*
         

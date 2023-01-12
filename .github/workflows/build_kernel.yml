@@ -53,7 +53,7 @@ jobs:
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         #sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
-        sudo -E apt-get install -y bc bison build-essential binutils-dev ca-certificates ccache clang cmake curl flex file g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lld lzop ninja-build pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk language-pack-zh-hans texinfo python python3.7 vim u-boot-tools xz-utils zlib1g-dev
+        sudo -E apt-get install -y bc bison build-essential binutils-dev ca-certificates ccache clang cmake curl flex file g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lld lzop ninja-build pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk language-pack-zh-hans texinfo python python3-dev python3 python3.7 vim u-boot-tools xz-utils zlib1g-dev
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -75,15 +75,10 @@ jobs:
         make O=out $DEVICE
         ccache -M 10G
 
-    - name: Pre-Compile CMake
-      working-directory: /workdir/CMake
-      run: |
-        ./bootstrap && make && sudo make install
-
     - name: Pre-Compile Toolchain
       working-directory: /workdir/tc-build
       run: |
-        python3.7 ./build-llvm.py
+        python3.7 ./build-llvm.py - t x86_64
         python3.7 ./build-binutils.py -t aarch64-linux-gnu
 
     - name: SSH connection to Actions

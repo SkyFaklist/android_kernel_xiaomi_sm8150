@@ -2,8 +2,8 @@
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
 export ARCH=arm64
 export SUBARCH=arm64
-TC_DIR="/workdir/tc-build"
-MPATH="$TC_DIR/install/bin/:$PATH"
+TC_DIR="/workdir/toolchain"
+MPATH="$TC_DIR/bin"
 rm -f out/arch/arm64/boot/Image.gz-dtb
 PATH="$MPATH" make -j$(nproc) O=out \
     NM=llvm-nm \

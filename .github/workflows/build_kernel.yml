@@ -64,9 +64,8 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH kernel
+        git clone --depth=1 $REPO_URL -b $REPO_BRANCH kernel
         git clone --depth=1 $TC_URL tc-build
-        git clone https://github.com/Kitware/CMake
         ln -sf /workdir/kernel $GITHUB_WORKSPACE/kernel
 
     - name: Set Device Code
@@ -78,7 +77,7 @@ jobs:
     - name: Pre-Compile Toolchain
       working-directory: /workdir/tc-build
       run: |
-        python3.7 ./build-llvm.py - t x86_64
+        python3.7 ./build-llvm.py
         python3.7 ./build-binutils.py -t aarch64-linux-gnu
 
     - name: SSH connection to Actions

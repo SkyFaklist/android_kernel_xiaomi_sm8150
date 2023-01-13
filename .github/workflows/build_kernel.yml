@@ -74,7 +74,7 @@ jobs:
       working-directory: /workdir/kernel
       run: |
         make O=out $DEVICE
-        ccache -M 10G
+        ccache -M 15G
 
 
     - name: SSH connection to Actions

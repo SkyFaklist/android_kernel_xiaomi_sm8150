@@ -73,11 +73,17 @@ jobs:
       run: |
         ccache -M 15G
         
-    - name: PRE-Compile LLVM Toolchain
+    - name: PRE-Compile LLVM Base
       working-directory: /workdir/tc-build
       run: |
         python3 ./build-llvm.py
-        python3 ./build-binutils -t aarch64-linux-gnu
+        df -hT $PWD
+        
+    - name: PRE-Compile LLVM Toolchain
+      working-directory: /workdir/tc-build
+      run: |
+        python3 ./build-binutils.py -t aarch64-linux-gnu
+        df -hT $PWD
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0

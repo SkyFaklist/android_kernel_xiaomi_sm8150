@@ -22,7 +22,7 @@ env:
   REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150.git
   REPO_BRANCH: android13
   COMPER_URL: https://github.com/llvm/llvm-project/releases/download/llvmorg
-  COMPER_VERSION: 15.0.0
+  COMPER_VERSION: 15.0.6
   COMPER_TARGET: x86_64-linux-gnu-ubuntu-18.04
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true

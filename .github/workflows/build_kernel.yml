@@ -74,7 +74,7 @@ jobs:
         make O=out $DEVICE
         ccache -M 15G
         
-    - name: Compile Source
+    - name: PRE-Compile LLVM Toolchain
       working-directory: /workdir/tc-build
       run: |
         python3.7 ./build-llvm.py

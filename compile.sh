@@ -1,10 +1,10 @@
 #!/bin/bash
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
-mkdir -p out
+#mkdir -p out
 export ARCH=arm64
 export SUBARCH=arm64
 PATH="/workdir/toolchain/bin/:$PATH"
-make O=out CC=clang $DEVICE ARCH=arm64
+#make O=out CC=clang $DEVICE ARCH=arm64
 make mrproper
 make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
 CC=clang \

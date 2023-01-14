@@ -35,6 +35,7 @@ env:
   DEVICE: cepheus_defconfig
   USE_CCACHE: 1
   CCACHE_DIR: ~/.ccache
+  PATH: /workdir/toolchains/bin:$PATH
   
 
 jobs:
@@ -83,9 +84,7 @@ jobs:
       working-directory: /workdir/kernel
       run: |
         export starttime=`date +'%Y-%m-%d %H:%M:%S'`
-        export PATH="workdir/toolchains/bin:$PATH"
-        sudo source /etc/profile
-        source ~/.bash_profile
+        export PATH="/workdir/toolchains/bin:$PATH"
         make O=out $DEVICE
         make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
             NM=llvm-nm \
@@ -101,8 +100,6 @@ jobs:
         export endtime=`date +'%Y-%m-%d %H:%M:%S'`
         export start_seconds=$(date --date=" $starttime" +%s);
         export end_seconds=$(date --date="$endtime" +%s);
-        sudo source /etc/profile
-        source ~/.bash_profile
         echo Start: $starttime.
         echo End: $endtime.
         echo "Build Time: "$((end_seconds-start_seconds))"s."

@@ -7,7 +7,7 @@
 # Description: Build MIUI Kernel using GitHub Actions
 #
 
-name: Build MIUI Kernel
+name: Build MIUI Kernel LLVM(Build)
 
 on:
   repository_dispatch:
@@ -95,8 +95,26 @@ jobs:
     - name: Compile Source
       working-directory: /workdir/kernel
       run: |
-        chmod +x ./compile.sh
-        ./compile.sh
+        starttime=`date +'%Y-%m-%d %H:%M:%S'`
+        PATH="/workdir/tc-build/install/bin/:$PATH"
+        make O=out $DEVICE
+        make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
+            NM=llvm-nm \
+            OBJCOPY=llvm-objcopy \
+               LD=ld.lld \
+               CROSS_COMPILE=aarch64-linux-gnu- \
+               CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+               CC=clang \
+               AR=llvm-ar \
+               OBJDUMP=llvm-objdump \
+               STRIP=llvm-strip
+               2>&1 | tee error.log
+        endtime=`date +'%Y-%m-%d %H:%M:%S'`
+        start_seconds=$(date --date=" $starttime" +%s);
+        end_seconds=$(date --date="$endtime" +%s);
+        echo Start: $starttime.
+        echo End: $endtime.
+        echo "Build Time: "$((end_seconds-start_seconds))"s."
         ls /workdir/kernel/
         ls /workdir/kernel/*.*
         

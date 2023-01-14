@@ -85,17 +85,20 @@ jobs:
       env: 
         PATH: /workdir/toolchains/bin:$PATH
       run: |
-        make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
-            NM=llvm-nm \
-            OBJCOPY=llvm-objcopy \
-               LD=ld.lld \
-               CROSS_COMPILE=aarch64-linux-gnu- \
-               CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-               CC=clang \
-               AR=llvm-ar \
-               OBJDUMP=llvm-objdump \
-               STRIP=llvm-strip
-               2>&1 | tee error.log
+        export PATH="/workdir/toolchains/bin:$PATH"
+        bash source /etc/profile 
+        bash source ~/.bash_profile
+        bash make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
+               NM=llvm-nm \
+               OBJCOPY=llvm-objcopy \
+                  LD=ld.lld \
+                  CROSS_COMPILE=aarch64-linux-gnu- \
+                  CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+                  CC=clang \
+                  AR=llvm-ar \
+                  OBJDUMP=llvm-objdump \
+                  STRIP=llvm-strip
+                  2>&1 | tee error.log
         ls /workdir/kernel/
         ls /workdir/kernel/*.*
         

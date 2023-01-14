@@ -75,7 +75,7 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: Compile Source
+    - name: Set DEVICE
       working-directory: /workdir/kernel
       run: |
         make O=out $DEVICE

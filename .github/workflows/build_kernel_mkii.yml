@@ -22,12 +22,8 @@ env:
   REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150.git
   REPO_BRANCH: miui
   COMPER_URL: https://github.com/kdrag0n/proton-clang.git
-  COMPER_VERSION: master
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true
-  UPLOAD_FIRMWARE: false
-  UPLOAD_COWTRANSFER: true
-  UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ARCH: arm64
@@ -35,7 +31,6 @@ env:
   DEVICE: cepheus_defconfig
   USE_CCACHE: 1
   CCACHE_DIR: ~/.ccache
-  PATH: /workdir/toolchains/bin:$PATH
   
 
 jobs:
@@ -83,9 +78,14 @@ jobs:
     - name: Compile Source
       working-directory: /workdir/kernel
       run: |
-        export starttime=`date +'%Y-%m-%d %H:%M:%S'`
-        export PATH="/workdir/toolchains/bin:$PATH"
         make O=out $DEVICE
+
+    - name: Compile Source
+      working-directory: /workdir/kernel
+      env: 
+        PATH: /workdir/toolchains/bin:$PATH
+      run: |
+        export starttime=`date +'%Y-%m-%d %H:%M:%S'`
         make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
             NM=llvm-nm \
             OBJCOPY=llvm-objcopy \
@@ -100,6 +100,7 @@ jobs:
         export endtime=`date +'%Y-%m-%d %H:%M:%S'`
         export start_seconds=$(date --date=" $starttime" +%s);
         export end_seconds=$(date --date="$endtime" +%s);
+        bash source /etc/profile
         echo Start: $starttime.
         echo End: $endtime.
         echo "Build Time: "$((end_seconds-start_seconds))"s."

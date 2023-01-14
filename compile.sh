@@ -6,7 +6,6 @@ export SUBARCH=arm64
 TC_DIR="/workdir/tc-build"
 PATH="$TC_DIR/install/bin/:$PATH"
 make O=out CC=clang $DEVICE ARCH=arm64
-make mrproper
 make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
     NM=llvm-nm \
     OBJCOPY=llvm-objcopy \

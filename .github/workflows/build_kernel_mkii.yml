@@ -85,12 +85,10 @@ jobs:
       run: |
         chmod +x ./compile.sh
         bash ./compile.sh
-        ls /workdir/kernel/
-        ls /workdir/kernel/*.*
+        ls /workdir/kernel/out/*.*
         
-    - name: Upload bin directory
+    - name: Upload Kernel directory
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
         working-directory: /workdir/kernel
         name: MIUI_Kernel_cepheus_${{ env.DEVICE }}

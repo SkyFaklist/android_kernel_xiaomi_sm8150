@@ -85,7 +85,7 @@ jobs:
       run: |
         chmod +x ./compile.sh
         bash ./compile.sh
-        ls /workdir/kernel/out/arch/arm64/boot/*.*
+        ls /workdir/kernel/out/arch/arm64/boot/
         
     - name: Upload Kernel directory
       uses: actions/upload-artifact@main

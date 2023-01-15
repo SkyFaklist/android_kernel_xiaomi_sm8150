@@ -85,14 +85,14 @@ jobs:
       run: |
         chmod +x ./compile.sh
         bash ./compile.sh
-        ls /workdir/kernel/out/*.*
+        ls /workdir/kernel/out/arch/arm64/boot/*.*
         
     - name: Upload Kernel directory
       uses: actions/upload-artifact@main
       with:
         working-directory: /workdir/kernel
         name: MIUI_Kernel_cepheus_${{ env.DEVICE }}
-        path: /workdir/kernel/out
+        path: /workdir/kernel/out/arch/arm64/boot/
        
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main

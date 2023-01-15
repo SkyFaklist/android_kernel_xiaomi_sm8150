@@ -82,8 +82,6 @@ jobs:
 
     - name: Compile Source
       working-directory: /workdir/kernel
-      env: 
-        PATH: /workdir/toolchains/bin:$PATH
       run: |
         chmod +x ./compile.sh
         bash ./compile.sh

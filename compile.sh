@@ -2,9 +2,9 @@
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
 export ARCH=arm64
 export SUBARCH=arm64
+make O=out cepheus_defconfig
 TC_DIR="/workdir"
 PATH="$TC_DIR/toolchain/bin/:$PATH"
-make O=out cepheus_defconfig
 make -j$(nproc --all) O=out \ CROSS_COMPILE=aarch64-linux-gnu- \ CROSS_COMPILE_ARM32=arm-linux-gnueabi- \ 
     NM=llvm-nm \
     OBJCOPY=llvm-objcopy \

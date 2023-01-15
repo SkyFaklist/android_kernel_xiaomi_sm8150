@@ -20,7 +20,7 @@ on:
 
 env:
   REPO_URL: https://github.com/SkyFaklist/android_kernel_xiaomi_sm8150.git
-  REPO_BRANCH: miui
+  REPO_BRANCH: android13
   COMPER_URL: https://github.com/kdrag0n/proton-clang.git
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true
